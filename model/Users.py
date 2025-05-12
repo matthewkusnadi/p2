@@ -1,7 +1,7 @@
-from Customer import Customer
-from Manager import Manager
-from exception.UnauthorizedAccessException import UnauthorizedAccessException
-from exception.InvalidOperationException import InvalidOperationException
+from model.Customer import Customer
+from model.Manager import Manager
+from model.exception.UnauthorizedAccessException import UnauthorizedAccessException
+from model.exception.InvalidOperationException import InvalidOperationException
 
 class Users:
     def __init__(self):

@@ -1,5 +1,5 @@
-from User import User
-from Animals import Animals
+from model.User import User
+from model.Animals import Animals
 
 class Customer(User):
     ADOPTION_LIMIT = 2

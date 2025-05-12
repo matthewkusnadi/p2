@@ -1,5 +1,5 @@
-from Users import Users
-from Animals import Animals
+from model.Users import Users
+from model.Animals import Animals
 
 class AdoptionCentre:
     logged_in_user = None

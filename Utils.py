@@ -49,7 +49,8 @@ class Utils:
 
     @staticmethod
     def button(root, text_, callback=None):
-        return ObservableButton(root, text_, callback, Utils.purple, "#aa82ff")
+        return ObservableButton(root, text_, callback, Utils.purple, "#9e6adf")  # Added hover color
+
 
     @staticmethod
     def filter_button(root, text_, callback=None):

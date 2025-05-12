@@ -1,4 +1,4 @@
-from User import User
+from model.User import User
 
 class Manager(User):
     def __init__(self, name, manager_id):

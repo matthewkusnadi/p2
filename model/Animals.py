@@ -1,4 +1,4 @@
-from Animal import Cat, Dog, Rabbit
+from model.Animal import Cat, Dog, Rabbit
 
 class Animals:
     def __init__(self):
