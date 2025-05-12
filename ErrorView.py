@@ -55,6 +55,4 @@ class ErrorView:
         Utils.button(main_frame, "Close", self.close_window).pack(padx=100)
     
     def close_window(self):
-        self.error_window.destroy()
-
-        
+        self.error_window.de

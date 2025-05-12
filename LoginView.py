@@ -87,20 +87,3 @@ class LoginView:
         if not email:
             ErrorView(self.root, "Missing Field", "Email is required for customer login.")
             return
-
-        customer = self.users_db.validate_customer(username, email)
-        if customer:
-            self._open_dashboard(customer, CustomerDashboardView)
-        else:
-            ErrorView(self.root, "Login Failed", "Invalid username or email.")
-
-    def _open_dashboard(self, user_obj, ViewClass):
-        self.root.withdraw()
-        dashboard_window = Utils.top_level(f"{type(user_obj).__name__} Dashboard")
-        ViewClass(dashboard_window, user_obj, self.animals)
-        dashboard_window.protocol("WM_DELETE_WINDOW", lambda: (dashboard_window.destroy(), self.root.deiconify()))
-
-if __name__ == "__main__":
-    root = Tk()
-    LoginView(root)
-    root.mainloop()

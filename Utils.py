@@ -82,5 +82,4 @@ class Utils:
             tree.column(column, anchor=CENTER, width=int(Utils.width/len(columns)), stretch=NO)
         for i in range(len(columns)):
             tree.heading(i, text=columns[i])
-        tree.bind("<Motion>", 'break')
-        return tree
+        tree.bind("<Motion>", 'break'
