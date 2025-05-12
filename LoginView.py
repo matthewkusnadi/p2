@@ -23,7 +23,6 @@ class LoginView:
         self.create_button_section()
 
     def create_logo_section(self):
-        # Logo section
         logo_frame = Frame(self.root, bg=Utils.light_gray)
         logo_frame.pack()
 
