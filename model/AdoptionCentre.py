@@ -11,4 +11,4 @@ class AdoptionCentre:
         return self.users
 
     def get_adoptable_animals(self):
-        return [animal for animal in self.animals.get_animals() if not animal.is_alread
+        return [animal for animal in self.animals.get_animals() if not animal.is_already_adopted()]
