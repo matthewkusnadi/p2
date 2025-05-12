@@ -6,8 +6,7 @@ from PIL import ImageTk
 #You will never have to manually call this
 class ObservableButton(Button):
     def __init__(self, root, text, callback, main_color, hover_color):
-        Button.__init__(self, root, text=text, command=callback, background=main_color, padx=0, relief=FLAT,
-                   font="Arial 11 bold", foreground="white")
+        Button.__init__(self, root, text=text, command=callback, background=main_color, padx=0, relief=FLAT, font="Arial 11 bold", foreground="white")
         self.bind("<Enter>", self.on_hover)
         self.bind("<Leave>", self.on_exit)
         self.main_color = main_color
@@ -49,7 +48,7 @@ class Utils:
 
     @staticmethod
     def button(root, text_, callback=None):
-        return ObservableButton(root, text_, callback, Utils.purple, "#9e6adf")  # Added hover color
+        return ObservableButton(root, text_, callback, Utils.purple, "#9e6adf")  
 
 
     @staticmethod
@@ -82,4 +81,5 @@ class Utils:
             tree.column(column, anchor=CENTER, width=int(Utils.width/len(columns)), stretch=NO)
         for i in range(len(columns)):
             tree.heading(i, text=columns[i])
-        tree.bind("<Motion>", 'break'
+        tree.bind("<Motion>", 'break')
+        return tree

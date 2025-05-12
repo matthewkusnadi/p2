@@ -12,29 +12,31 @@ class LoginView:
         root.geometry("550x550")
         root.configure(bg=Utils.light_gray)
 
-        from model.Animals import Animals  # Import here to avoid circular imports
+
+        from model.Animals import Animals  
         self.animals = Animals().insert_seed_data()
         self.users_db = Users()
         self.users_db.insert_seed_data(self.animals)
 
-        self.create_logo_section(root)
-        self.create_login_section(root)
-        self.create_button_section(root)
+        self.create_logo_section()
+        self.create_login_section()
+        self.create_button_section()
 
-    def create_logo_section(self, root):
-        logo_frame = Frame(root, bg=Utils.light_gray)
+    def create_logo_section(self):
+        # Logo section
+        logo_frame = Frame(self.root, bg=Utils.light_gray)
         logo_frame.pack()
 
         logo_label = Utils.image(logo_frame, "image/cat_banner.jpg")
         logo_label.pack()
 
-        Utils.separator(root).pack(fill=X, pady=1)
+        Utils.separator(self.root).pack(fill=X, pady=1)
 
-        Label(root, text="Login", font=("Arial", 16, "bold"), fg=Utils.purple, bg=Utils.light_gray).pack(pady=20)
-        Utils.separator(root).pack(fill=X, pady=1)
+        Label(self.root, text="Login", font=("Arial", 16, "bold"), fg=Utils.purple, bg=Utils.light_gray).pack(pady=20)
+        Utils.separator(self.root).pack(fill=X, pady=1)
 
-    def create_login_section(self, root):
-        customer_form = Utils.frame(root)
+    def create_login_section(self):
+        customer_form = Utils.frame(self.root)
         customer_form.configure(bg=Utils.light_gray)
         customer_form.pack(pady=10, anchor="center")
 
@@ -46,9 +48,9 @@ class LoginView:
         self.email_entry = Entry(customer_form, width=20)
         self.email_entry.grid(row=1, column=1, pady=5)
 
-        Utils.separator(root).pack(fill=X, padx=20, pady=10)
+        Utils.separator(self.root).pack(fill=X, padx=20, pady=10)
 
-        manager_form = Utils.frame(root)
+        manager_form = Utils.frame(self.root)
         manager_form.configure(bg=Utils.light_gray)
         manager_form.pack(pady=0, anchor="center")
 
@@ -56,14 +58,14 @@ class LoginView:
         self.manager_id_entry = Entry(manager_form)
         self.manager_id_entry.grid(row=0, column=1, pady=0)
 
-    def create_button_section(self, root):
-        btn_frame = Frame(root)
+    def create_button_section(self):
+        btn_frame = Frame(self.root)
         btn_frame.pack(side=BOTTOM, fill=X, pady=0)
 
         login_button = Button(btn_frame, text="Login", padx=10, pady=10, bg=Utils.purple, command=self.login)
         login_button.pack(side=LEFT, expand=True, fill="both")
 
-        exit_button = Button(btn_frame, text="Exit", bg=Utils.purple, command=root.quit)
+        exit_button = Button(btn_frame, text="Exit", bg=Utils.purple, command=self.root.quit)
         exit_button.pack(side=RIGHT, fill="both", expand=True)
 
     def login(self):
@@ -76,14 +78,27 @@ class LoginView:
                 manager = self.users_db.validate_manager(manager_id)
                 self._open_dashboard(manager, ManagerDashboardView)
                 return
-            except Exception as ex:
-                ErrorView(self.root, "Invalid Manager ID", str(ex))
+            except Exception:
+                ErrorView(self.root, "InvalidOperationException", "Invalid manager credentials")
                 return
 
-        if not username:
-            ErrorView(self.root, "Missing Field", "Username is required for customer login.")
+        if not username or not email:
+            ErrorView(self.root, "InvalidOperationException", "Invalid username or email")
             return
 
-        if not email:
-            ErrorView(self.root, "Missing Field", "Email is required for customer login.")
-            return
+        customer = self.users_db.validate_customer(username, email)
+        if customer:
+            self._open_dashboard(customer, CustomerDashboardView)
+        else:
+            ErrorView(self.root, "Invalid username or email.")
+
+    def _open_dashboard(self, user_obj, ViewClass):
+        self.root.withdraw()
+        dashboard_window = Utils.top_level(f"{type(user_obj).__name__} Dashboard")
+        ViewClass(dashboard_window, user_obj, self.animals)
+        dashboard_window.protocol("WM_DELETE_WINDOW", lambda: (dashboard_window.destroy(), self.root.deiconify()))
+
+if __name__ == "__main__":
+    root = Tk()
+    LoginView(root)
+    root.mainloop()
